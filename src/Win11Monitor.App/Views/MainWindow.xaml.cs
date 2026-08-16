@@ -1,4 +1,4 @@
-using Microsoft.Win32;
+using System.IO;
 using Win11Monitor.App.ViewModels;
 
 namespace Win11Monitor.App.Views;
@@ -18,7 +18,7 @@ public partial class MainWindow : System.Windows.Window
 
     private void ExportDiagnostics_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        var dialog = new SaveFileDialog
+        var dialog = new Microsoft.Win32.SaveFileDialog
         {
             Title = "导出传感器报告",
             Filter = "文本文件 (*.txt)|*.txt",
