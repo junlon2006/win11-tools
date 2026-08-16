@@ -26,6 +26,14 @@ dotnet test .\Win11Monitor.sln -c Release --no-build
 
 生成可直接分发的自包含版本：
 
+在 CMD 中执行：
+
+```cmd
+build.cmd -Publish
+```
+
+在 PowerShell 中执行：
+
 ```powershell
 .\build.ps1 -Publish
 ```
