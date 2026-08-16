@@ -1,0 +1,25 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet restore .\Win11Monitor.sln
+      - run: dotnet build .\Win11Monitor.sln -c Release --no-restore
+      - run: dotnet test .\Win11Monitor.sln -c Release --no-build
+      - run: >-
+          dotnet publish .\src\Win11Monitor.App\Win11Monitor.App.csproj
+          -c Release -r win-x64 --self-contained true
+          -p:PublishSingleFile=false -o .\artifacts\Z690Monitor
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Z690Monitor-win-x64
+          path: artifacts/Z690Monitor
