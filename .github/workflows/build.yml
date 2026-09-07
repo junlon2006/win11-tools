@@ -5,21 +5,23 @@ on:
   pull_request:
 
 jobs:
-  windows:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.0.x
-      - run: dotnet restore .\Win11Monitor.sln
-      - run: dotnet build .\Win11Monitor.sln -c Release --no-restore
-      - run: dotnet test .\Win11Monitor.sln -c Release --no-build
-      - run: >-
-          dotnet publish .\src\Win11Monitor.App\Win11Monitor.App.csproj
-          -c Release -r win-x64 --self-contained true
-          -p:PublishSingleFile=false -o .\artifacts\Z690Monitor
+      - name: Build solution
+        run: dotnet build CpuCoreVoltageTray.sln --configuration Release
+      - name: Run logic tests
+        run: dotnet run --project tests/CpuCoreVoltageTray.LogicTests/CpuCoreVoltageTray.LogicTests.csproj --configuration Release --no-build
+      - name: Publish Windows executable
+        shell: pwsh
+        run: ./scripts/publish.ps1 -OutputDirectory ./artifacts/win-x64
       - uses: actions/upload-artifact@v4
         with:
-          name: Z690Monitor-win-x64
-          path: artifacts/Z690Monitor
+          name: CpuCoreVoltageTray-win-x64
+          path: artifacts/win-x64/
+          if-no-files-found: error
+

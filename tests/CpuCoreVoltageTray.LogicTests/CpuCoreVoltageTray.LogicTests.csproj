@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\CpuCoreVoltageTray\CpuMetricSelector.cs"
+             Link="CpuMetricSelector.cs" />
+    <Compile Include="..\..\src\CpuCoreVoltageTray\VoltageSensorSelector.cs"
+             Link="VoltageSensorSelector.cs" />
+  </ItemGroup>
+</Project>
+
