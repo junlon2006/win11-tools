@@ -62,7 +62,7 @@ internal static class AutoStartManager
 
             return false;
         }
-        catch (COMException exception) when (exception.HResult == FileNotFoundHResult)
+        catch (Exception exception) when (IsTaskNotFound(exception))
         {
             return false;
         }
@@ -123,9 +123,15 @@ internal static class AutoStartManager
         {
             root.DeleteTask(GetTaskName(), 0);
         }
-        catch (COMException exception) when (exception.HResult == FileNotFoundHResult)
+        catch (Exception exception) when (IsTaskNotFound(exception))
         {
         }
+    }
+
+    private static bool IsTaskNotFound(Exception exception)
+    {
+        return exception is FileNotFoundException ||
+               exception is COMException { HResult: FileNotFoundHResult };
     }
 
     private static dynamic OpenRootFolder()
